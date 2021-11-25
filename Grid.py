@@ -1,5 +1,9 @@
 from Cell import Cell
 import random
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtGui import QPainter, QBrush, QPen
+from PyQt5.QtCore import Qt
 
 
 class Grid:
@@ -65,5 +69,24 @@ class Grid:
 
             output += top + "\n"
             output += bottom + "\n"
-
         return output
+
+    def paint(self, painter, x_start, y_start, cell_width, cell_height):
+        painter.setPen(QPen(Qt.white, 2, Qt.SolidLine))
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        painter.drawLine(x_start, y_start, x_start + self.columns * cell_width, y_start)
+        for row_index, row in enumerate(self.each_row()):
+            y = y_start + row_index * cell_height
+            painter.drawLine(x_start, y, x_start, y + cell_height)
+
+            for column_index, cell in enumerate(row):
+                cell = cell if cell is not None else Cell(-1, -1)
+
+                x = x_start + column_index * cell_width
+
+                if not cell.is_linked(cell.east):
+                    painter.drawLine(x + cell_width, y, x + cell_width, y + cell_height)
+
+                if not cell.is_linked(cell.south):
+                    painter.drawLine(x, y + cell_height, x + cell_width, y + cell_height)
