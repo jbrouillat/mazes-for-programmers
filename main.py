@@ -1,10 +1,12 @@
+from typing import Union
+
 from BinaryTreeMaze import BinaryTreeMaze
 from Grid import Grid
 
 # from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtGui import QPainter  # , QBrush, QPen
-# from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QPalette
+from PyQt5.QtCore import Qt
 
 import sys
 
@@ -27,6 +29,7 @@ class Window(QMainWindow):
     def init_window(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
+        # self.setStyleSheet("background-color: black;")
         self.show()
 
     def set_grid(self, grid):
@@ -38,9 +41,22 @@ class Window(QMainWindow):
                              grid.rows * self.grid_cell_height + 2 * self.grid_y_start)
 
     def paintEvent(self, event):
-        painter: int = QPainter(self)
+        painter: Union[QPainter, QPainter] = QPainter(self)
         if self.grid is None:
             return
+
+        # background_brush = QBrush(QColor(0, 0, 0), Qt.SolidPattern)
+        # painter.setBackground(background_brush)
+        painter.setBackground(QColor(0, 0, 0))
+
+        painter.setClipping(True)
+        painter.setBackgroundMode(Qt.BGMode.OpaqueMode)
+
+        painter.eraseRect(self.rect())
+
+        # pal = self.palette()
+        # pal.setColor(QPalette.Background, Qt.black)
+        # self.setAutoFillBackground(True)
 
         self.grid.paint(painter, self.grid_x_start, self.grid_y_start, self.grid_cell_width, self.grid_cell_height)
 

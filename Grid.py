@@ -51,6 +51,10 @@ class Grid:
             for cell in row:
                 yield cell
 
+    @staticmethod
+    def contents_of(cell):
+        return " "
+
     def __str__(self):
         output = "+" + "---+" * self.columns + "\n"
         for row in self.each_row():
