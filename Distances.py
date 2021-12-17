@@ -9,7 +9,10 @@ class Distances:
         self.cells = {self.root: 0}
 
     def __getitem__(self, cell):
-        return self.cells[cell]
+        if cell in self.cells:
+            return self.cells[cell]
+        else:
+            return None
 
     def __setitem__(self, cell, distance):
         self.cells[cell] = distance

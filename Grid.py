@@ -51,10 +51,6 @@ class Grid:
             for cell in row:
                 yield cell
 
-    @staticmethod
-    def contents_of(cell):
-        return " "
-
     def __str__(self):
         output = "+" + "---+" * self.columns + "\n"
         for row in self.each_row():
@@ -63,7 +59,8 @@ class Grid:
             for cell in row:
                 cell = cell if cell is not None else Cell(-1, -1)
 
-                body = "   "
+                # body = "   "
+                body = "{:^3}".format(self.contents_of(cell))
                 east_boundary = " " if cell.is_linked(cell.east) else "|"
                 top += body + east_boundary
 
@@ -94,3 +91,6 @@ class Grid:
 
                 if not cell.is_linked(cell.south):
                     painter.drawLine(x, y + cell_height, x + cell_width, y + cell_height)
+
+    def contents_of(self, cell):
+        return ""

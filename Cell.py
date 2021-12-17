@@ -35,6 +35,9 @@ class Cell:
         if self.east is not None:
             n.append(self.east)
 
+    def __str__(self):
+        return "Cell(" + str(self.row) + ", " + str(self.column) + ")"
+
     def distances(self):
         distances = Distances(self)
         frontier = [self]
@@ -43,6 +46,9 @@ class Cell:
             new_frontier = []
             for cell in frontier:
                 for linked_cell in cell.links:
+                    if linked_cell in distances.cells:
+                        continue
+                    print(cell)
                     distances[linked_cell] = distances[cell] + 1
                     new_frontier.extend(cell.links)
 

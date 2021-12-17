@@ -1,6 +1,7 @@
 from typing import Union
 
 from BinaryTreeMaze import BinaryTreeMaze
+from DistanceGrid import DistanceGrid
 from Grid import Grid
 
 # from PyQt5 import QtGui
@@ -62,14 +63,19 @@ class Window(QMainWindow):
 
 
 def main():
-    grid = Grid(30, 30)
+    grid = DistanceGrid(20, 20)
     BinaryTreeMaze.on(grid)
-    # print(grid)
 
-    app = QApplication(sys.argv)
-    window = Window()
-    window.set_grid(grid)
-    sys.exit(app.exec())
+    start = grid[0, 0]
+    distances = start.distances()
+    grid.distances = distances
+
+    print(grid)
+
+    # app = QApplication(sys.argv)
+    # window = Window()
+    # window.set_grid(grid)
+    # sys.exit(app.exec())
 
 
 if __name__ == '__main__':
