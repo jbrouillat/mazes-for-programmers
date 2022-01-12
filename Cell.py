@@ -48,7 +48,7 @@ class Cell:
                 for linked_cell in cell.links:
                     if linked_cell in distances.cells:
                         continue
-                    print(cell)
+                    # print(cell)
                     distances[linked_cell] = distances[cell] + 1
                     new_frontier.extend(cell.links)
 

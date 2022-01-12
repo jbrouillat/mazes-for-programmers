@@ -1,6 +1,7 @@
 from typing import Union
 
 from BinaryTreeMaze import BinaryTreeMaze
+from ColoredGrid import ColoredGrid
 from DistanceGrid import DistanceGrid
 from Grid import Grid
 
@@ -24,8 +25,9 @@ class Window(QMainWindow):
         self.grid = None
         self.grid_x_start = 20
         self.grid_y_start = 20
-        self.grid_cell_width = 20
-        self.grid_cell_height = 20
+        self.grid_cell_width = 40
+        self.grid_cell_height = 40
+        self.grid_font_size = 20
 
     def init_window(self):
         self.setWindowTitle(self.title)
@@ -59,23 +61,38 @@ class Window(QMainWindow):
         # pal.setColor(QPalette.Background, Qt.black)
         # self.setAutoFillBackground(True)
 
-        self.grid.paint(painter, self.grid_x_start, self.grid_y_start, self.grid_cell_width, self.grid_cell_height)
+        self.grid.paint(painter, self.grid_x_start, self.grid_y_start,
+                        self.grid_cell_width, self.grid_cell_height, self.grid_font_size)
 
 
 def main():
-    grid = DistanceGrid(20, 20)
+    # grid = DistanceGrid(20, 20)
+    grid = ColoredGrid(40, 40)
     BinaryTreeMaze.on(grid)
 
     start = grid[0, 0]
     distances = start.distances()
     grid.distances = distances
 
-    print(grid)
+    # Shortest path to cell
+    # shortest_path = distances.path_to(grid[10, 10])
+    # grid.distances = shortest_path
 
-    # app = QApplication(sys.argv)
-    # window = Window()
-    # window.set_grid(grid)
-    # sys.exit(app.exec())
+    # Max path in a maze
+    new_start, new_distance = distances.max_length()
+    new_distances = new_start.distances()
+    goal, goal_distance = new_distances.max_length()
+    # grid.distances = new_distances.path_to(goal)
+    grid.distances = goal.distances()
+
+    # print(", ".join(str(i) for i in distances.max_length()))
+
+    # print(grid)
+
+    app = QApplication(sys.argv)
+    window = Window()
+    window.set_grid(grid)
+    sys.exit(app.exec())
 
 
 if __name__ == '__main__':

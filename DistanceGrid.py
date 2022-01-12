@@ -10,4 +10,4 @@ class DistanceGrid(Grid):
         if self.distances and cell in self.distances.cells:
             return "{}".format(self.distances[cell])
         else:
-            return "X"
+            return ""

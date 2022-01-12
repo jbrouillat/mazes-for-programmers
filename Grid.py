@@ -2,8 +2,8 @@ from Cell import Cell
 import random
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtGui import QPainter, QBrush, QPen
-from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor
+from PyQt5.QtCore import Qt, QRect
 
 
 class Grid:
@@ -72,25 +72,64 @@ class Grid:
             output += bottom + "\n"
         return output
 
-    def paint(self, painter, x_start, y_start, cell_width, cell_height):
-        painter.setPen(QPen(Qt.white, 2, Qt.SolidLine))
+    def paint(self, painter, x_start, y_start, cell_width, cell_height, font_size):
+        white_pen = QPen(Qt.white, 2, Qt.SolidLine)
+        painter.setPen(white_pen)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        painter.drawLine(x_start, y_start, x_start + self.columns * cell_width, y_start)
-        for row_index, row in enumerate(self.each_row()):
-            y = y_start + row_index * cell_height
-            painter.drawLine(x_start, y, x_start, y + cell_height)
+        font = painter.font()
+        font.setPixelSize(font_size)
+        painter.setFont(font)
 
-            for column_index, cell in enumerate(row):
-                cell = cell if cell is not None else Cell(-1, -1)
+        for mode in ["background", "wall"]:
+            if mode == "wall":
+                painter.drawLine(x_start, y_start, x_start + self.columns * cell_width, y_start)
+            for row_index, row in enumerate(self.each_row()):
+                y = y_start + row_index * cell_height
+                if mode == "wall":
+                    painter.drawLine(x_start, y, x_start, y + cell_height)
 
-                x = x_start + column_index * cell_width
+                for column_index, cell in enumerate(row):
+                    cell = cell if cell is not None else Cell(-1, -1)
 
-                if not cell.is_linked(cell.east):
-                    painter.drawLine(x + cell_width, y, x + cell_width, y + cell_height)
+                    x = x_start + column_index * cell_width
 
-                if not cell.is_linked(cell.south):
-                    painter.drawLine(x, y + cell_height, x + cell_width, y + cell_height)
+                    # painter.drawText()
+                    rectangle = QRect(x, y, cell_width, cell_height)
+
+                    previous_brush = painter.brush()
+                    previous_background = painter.background()
+                    cell_color = self.background_color_for(cell)
+
+                    if mode == "background":
+                        if cell_color:
+                            previous_pen = painter.pen()
+                            painter.setPen(Qt.NoPen)
+                            painter.setBrush(QBrush(cell_color, Qt.SolidPattern))
+                            painter.drawRect(rectangle)
+                            painter.setPen(previous_pen)
+                            painter.setBrush(previous_brush)
+                    else:
+                        if cell_color:
+                            painter.setBackground(cell_color)
+                        painter.drawText(rectangle, Qt.AlignCenter, self.contents_of(cell))
+                        if cell_color:
+                            painter.setBackground(previous_background)
+                        # painter.drawRect(rectangle.adjusted(2, 2, -2, -2))
+
+                    # painter.drawLine(x, y, x, y + cell_height)
+                    # painter.drawLine(x, y, x + cell_width, y)
+                    # painter.drawLine(x, y + cell_height, x + cell_width, y + cell_height)
+                    # painter.drawLine(x + cell_width, y, x + cell_width, y + cell_height)
+
+                    if not cell.is_linked(cell.east):
+                        painter.drawLine(x + cell_width, y, x + cell_width, y + cell_height)
+
+                    if not cell.is_linked(cell.south):
+                        painter.drawLine(x, y + cell_height, x + cell_width, y + cell_height)
 
     def contents_of(self, cell):
         return ""
+
+    def background_color_for(self, cell):
+        return QColor(0, 0, 0)
