@@ -23,8 +23,13 @@ class Wilsons:
                 # print("current_path:", ", ".join(str(i) for i in path))
 
                 # print("neighbors: ", ", ".join(str(i) for i in cell.neighbors()))
-                index = random.randrange(len(cell.neighbors()))
-                cell = cell.neighbors()[index]
+                # neighbors: list = cell.neighbors()
+                # cell = random.sample(neighbors, 1)[0]
+
+                neighbors, weights = cell.neighbors_weighted()
+                cell = random.choices(neighbors, weights)[0]
+
+                # cell = random.choices(neighbors, weights)[0]
 
                 # print("next_cell:", cell)
 

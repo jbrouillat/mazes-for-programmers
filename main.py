@@ -28,9 +28,9 @@ class Window(QMainWindow):
         self.grid = None
         self.grid_x_start = 20
         self.grid_y_start = 20
-        self.grid_cell_width = 20
-        self.grid_cell_height = 20
-        self.grid_font_size = 10
+        self.grid_cell_width = 10
+        self.grid_cell_height = 10
+        self.grid_font_size = 5
 
     def init_window(self):
         self.setWindowTitle(self.title)

@@ -24,7 +24,7 @@ class Cell:
     def is_linked(self, cell):
         return cell in self.links
 
-    def neighbors(self):
+    def neighbors(self) -> list:
         n = []
         if self.north is not None:
             n.append(self.north)
@@ -35,6 +35,23 @@ class Cell:
         if self.east is not None:
             n.append(self.east)
         return n
+
+    def neighbors_weighted(self) -> (list, list):
+        n = []
+        w = []
+        if self.north is not None:
+            n.append(self.north)
+            w.append(1)
+        if self.south is not None:
+            n.append(self.south)
+            w.append(1)
+        if self.west is not None:
+            n.append(self.west)
+            w.append(1)
+        if self.east is not None:
+            n.append(self.east)
+            w.append(1)
+        return n, w
 
     def __str__(self):
         return "Cell(" + str(self.row) + ", " + str(self.column) + ")"
