@@ -20,11 +20,20 @@ class ColoredGrid(Grid):
         self.farthest_cell, self.max_distance = self._distances.max_length()
 
     def background_color_for(self, cell):
+        if self.distances is None:
+            return QColor(0, 0, 0)
 
         distance = self.distances[cell]
-        if distance:
-            intensity = (self.max_distance - distance) / self.max_distance
-            bright = int(255 * intensity)
-            return QColor(bright, bright, bright)
-        else:
+        if distance is None:
             return QColor(0, 0, 0)
+
+        intensity = (self.max_distance - distance) / self.max_distance
+        dark = int(255 * intensity)
+        bright = 128 + int(127 * intensity)
+        return QColor(dark, bright, dark)
+
+    # def contents_of(self, cell):
+    #     if self.distances and cell in self.distances.cells:
+    #         return "{}".format(self.distances[cell])
+    #     else:
+    #         return ""

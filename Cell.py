@@ -34,6 +34,7 @@ class Cell:
             n.append(self.west)
         if self.east is not None:
             n.append(self.east)
+        return n
 
     def __str__(self):
         return "Cell(" + str(self.row) + ", " + str(self.column) + ")"

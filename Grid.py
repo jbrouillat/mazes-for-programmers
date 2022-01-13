@@ -18,7 +18,7 @@ class Grid:
         for row in range(self.rows):
             column_cells = []
             for column in range(self.columns):
-                cell = Cell(0, column)
+                cell = Cell(row, column)
                 column_cells.append(cell)
             all_cells.append(column_cells)
         return all_cells
@@ -50,6 +50,9 @@ class Grid:
         for row in self.each_row():
             for cell in row:
                 yield cell
+
+    def size(self):
+        return self.rows * self.columns
 
     def __str__(self):
         output = "+" + "---+" * self.columns + "\n"

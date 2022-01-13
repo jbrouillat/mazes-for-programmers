@@ -1,5 +1,6 @@
 from typing import Union
 
+from AldousBroder import AldousBroder
 from BinaryTreeMaze import BinaryTreeMaze
 from ColoredGrid import ColoredGrid
 from DistanceGrid import DistanceGrid
@@ -11,6 +12,8 @@ from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QPalette
 from PyQt5.QtCore import Qt
 
 import sys
+
+from Wilsons import Wilsons
 
 
 class Window(QMainWindow):
@@ -25,9 +28,9 @@ class Window(QMainWindow):
         self.grid = None
         self.grid_x_start = 20
         self.grid_y_start = 20
-        self.grid_cell_width = 40
-        self.grid_cell_height = 40
-        self.grid_font_size = 20
+        self.grid_cell_width = 20
+        self.grid_cell_height = 20
+        self.grid_font_size = 10
 
     def init_window(self):
         self.setWindowTitle(self.title)
@@ -67,12 +70,25 @@ class Window(QMainWindow):
 
 def main():
     # grid = DistanceGrid(20, 20)
+    # grid = Grid(5, 5)
     grid = ColoredGrid(40, 40)
-    BinaryTreeMaze.on(grid)
+
+    # for cell in grid.each_cell():
+    #     print("Cell:", cell)
+    #     print("North:", cell.north)
+    #     print("South:", cell.south)
+    #     print("West:", cell.west)
+    #     print("East:", cell.east)
+    #     print("Neighbors: ", ", ".join(str(i) for i in cell.neighbors()))
+    # return
+
+    # BinaryTreeMaze.on(grid)
+    # AldousBroder.on(grid)
+    Wilsons.on(grid)
 
     start = grid[0, 0]
     distances = start.distances()
-    grid.distances = distances
+    # grid.distances = distances
 
     # Shortest path to cell
     # shortest_path = distances.path_to(grid[10, 10])
