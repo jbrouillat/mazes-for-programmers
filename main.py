@@ -71,7 +71,7 @@ class Window(QMainWindow):
 def main():
     # grid = DistanceGrid(20, 20)
     # grid = Grid(5, 5)
-    grid = ColoredGrid(40, 40)
+    grid = ColoredGrid(80, 80)
 
     # for cell in grid.each_cell():
     #     print("Cell:", cell)

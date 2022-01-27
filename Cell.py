@@ -41,16 +41,20 @@ class Cell:
         w = []
         if self.north is not None:
             n.append(self.north)
-            w.append(1)
+            # w.append(1)
+            w.append(max(0, self.row - 30) + 1)
         if self.south is not None:
             n.append(self.south)
-            w.append(1)
+            # w.append(1)
+            w.append(max(0, self.row - 30) + 1)
         if self.west is not None:
             n.append(self.west)
-            w.append(1)
+            # w.append(1)
+            w.append(max(0, 50 - self.row) + 1)
         if self.east is not None:
             n.append(self.east)
-            w.append(1)
+            # w.append(1)
+            w.append(max(0, 50 - self.row) + 1)
         return n, w
 
     def __str__(self):
